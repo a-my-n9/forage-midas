@@ -10,7 +10,10 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       group-id: midas
       auto-offset-reset: earliest
+    #    datasource:
+    #      url: jdbc:h2:file:/data/demo
+    #    h2:
+    #      console.enabled: true
       properties:
-        spring.json.trusted.packages: "*"
-    properties:
-      spring.json.value.default.type: com.jpmc.midascore.foundation.Transaction
+        spring.json.value.default.type: com.jpmc.midascore.foundation.Transaction
+        spring.json.trusted.packages: '*'

@@ -14,7 +14,7 @@ public class KafkaProducer {
     private final String topic;
     private final KafkaTemplate<String, Transaction> kafkaTemplate;
 
-    private static final Logger logger = LoggerFactory.getLogger(KafkaConsumer.class);
+    private static final Logger logger = LoggerFactory.getLogger(KafkaProducer.class);
 
     public KafkaProducer(@Value("${general.kafka-topic}") String topic, KafkaTemplate<String, Transaction> kafkaTemplate) {
         this.topic = topic;
