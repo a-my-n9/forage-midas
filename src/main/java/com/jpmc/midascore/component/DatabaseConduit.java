@@ -6,6 +6,7 @@ import com.jpmc.midascore.repository.TransactionRecordRepository;
 import com.jpmc.midascore.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +17,13 @@ import java.util.Objects;
 public class DatabaseConduit {
     private final UserRepository userRepository;
     private final TransactionRecordRepository transactionRecordRepository;
+    private final IncentiveComponent incentiveComponent;
 
-    public DatabaseConduit(UserRepository userRepository, TransactionRecordRepository transactionRecordRepository) {
+    @Autowired
+    public DatabaseConduit(UserRepository userRepository, TransactionRecordRepository transactionRecordRepository, IncentiveComponent incentiveComponent) {
         this.userRepository = userRepository;
         this.transactionRecordRepository = transactionRecordRepository;
+        this.incentiveComponent = incentiveComponent;
     }
     private static final Logger logger = LoggerFactory.getLogger(DatabaseConduit.class);
 
@@ -33,6 +37,7 @@ public class DatabaseConduit {
 
         if (sender != null && recipient != null) {
             if (sender.getBalance() >= transaction.getAmount()) {
+                float incentiveAmount = incentiveComponent.getIncentive(transaction);
                 sender.setBalance(sender.getBalance() - transaction.getAmount());
                 recipient.setBalance(recipient.getBalance() + transaction.getAmount());
                 save(sender);
